@@ -7,6 +7,7 @@
 
 ---
 
+#Simo für pptx
 ## 🔥 Retail Insights Dashboard
 > A powerful all-in-one sales and operations dashboard for internal analytics.
 
