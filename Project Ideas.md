@@ -120,16 +120,16 @@
 
 ## Ergebnisse & weitere Ideen
 
-#SAP System  (Lieferwege, Nachbestellungen)
-#Stakeholder Statistik:
+# SAP System  (Lieferwege, Nachbestellungen)
+# Stakeholder Statistik:
 - Stakeholder Statistik generell
 - Stakeholder Statistik (Spezialisierung auf Kunden)
 - Stakeholder Statistik (Spezialisierung auf Produkte)
 - Stakeholder Statistik (Spezialisierung auf Metadaten)
-#What if Simulator:
+# What if Simulator:
 - What If Items in Store X
 - What If Store in Area X
-#Datensatzbewertung (eventuell als Funktion auch bei anderen Ideen9
+# Datensatzbewertung (eventuell als Funktion auch bei anderen Ideen9
 - Können mit der Datengrundlage qualifizierte Aussagen getätigt werden?
 
 
