@@ -118,7 +118,7 @@
 
 ---
 
-## Ergebnisse & weitere Ideen
+### Ergebnisse & weitere Ideen
 
 # SAP System  (Lieferwege, Nachbestellungen)
 # Stakeholder Statistik:
@@ -132,5 +132,5 @@
 # Datensatzbewertung (eventuell als Funktion auch bei anderen Ideen9
 - Können mit der Datengrundlage qualifizierte Aussagen getätigt werden?
 
-
+---
 
