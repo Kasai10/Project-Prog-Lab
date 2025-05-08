@@ -6,6 +6,7 @@
 - [1] Kaufhäufigkeit pro Kunde (Top-Kunden)
 - [1] Durchschnittlicher Bestellwert pro Kunde
 - [1] Wiederkehrende Kunden (mehr als eine Bestellung)
+- [ ] Kundensegmentierung
 
 ## Filialanalyse
 - [1] Umsatz pro Filiale
@@ -31,11 +32,17 @@
 - [1] Durchschnittliche Distanz zwischen Kunden und Filialen
 - [1] Kunden-Filial-Zuordnung basierend auf Nähe
 - [1] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
+- [ ] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
 
 ## Trends und Vorhersagen
 - [1] Saisonale Verkaufstrends nach Produktkategorie
 - [1] Wachstum der Bestellungen/Umsätze im Jahresvergleich
 - [1] Identifikation von Spitzenzeiten (z. B. Feiertage)
+- [ ] Frühwarnsystem für Umsatzrückgänge (via Schwellenwert-Erkennung)
+
+## Nutzerverwaltung
+- [ ] Unterschiedliche Zugriffsrechte (Admin, Analyst, Filialleiter)
+- [ ] Audit-Log
 
 ## Visualisierungsideen
 - [1] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
@@ -43,10 +50,15 @@
 - [1] Tortendiagramme (Produktkategorien-Anteile)
 - [1] Tabellen (Top-Kunden, Top-Produkte, Filialleistung)
 - [1] Heatmaps (saisonale Muster, Kundendichte)
+- [ ] Interaktive Dashboards mit Drilldown Funktionen
+- [ ] Histogramme (z.B. Bestellwertverteilung)
+- [ ] Boxplots (z.B. zur Analyse von Streuung bei Filialumsätzen oder Lieferzeiten)
 
 ## Empfehlungen
 - [1] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
 - [1] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
+- [ ] Exportfunktionen (??)
+- [ ] In Abhängigkeit mit Nutzerverwaltung --> Nutzerabhängige Dashboards
 
 ### Anweisungen
 - Setze `[Zahl + 1 oder 1 wenn noch keine Zahl]` bei den Punkten, die du priorisieren möchtest.
