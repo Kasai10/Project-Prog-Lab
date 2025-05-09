@@ -16,6 +16,7 @@
 - [1] Durchschnittliche Distanz zwischen Kunden und Filiale
 - [1] Produkt-Verkäufe pro Filiale
 
+
 ## Produktanalyse
 - [1] Beliebteste Produkte (Verkaufszahlen)
 - [1] Umsatz pro Produkt oder Produktkategorie
@@ -36,6 +37,7 @@
 - [1] Kunden-Filial-Zuordnung basierend auf Nähe
 - [1] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
 - [ ] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
+- [ ] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
 
 ## Trends und Vorhersagen
 - [1] Saisonale Verkaufstrends nach Produktkategorie
