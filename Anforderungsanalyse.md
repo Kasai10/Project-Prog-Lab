@@ -43,9 +43,6 @@
 - [2] Identifikation von Spitzenzeiten (z. B. Feiertage)
 - [1] Frühwarnsystem für Umsatzrückgänge (via Schwellenwert-Erkennung)
 
-## Nutzerverwaltung
-- [1] Unterschiedliche Zugriffsrechte (Admin, Analyst, Filialleiter)
-- [1] Audit-Log
 
 ## Visualisierungsideen
 - [4] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
