@@ -2,7 +2,7 @@
 
 ## Kundenanalyse
 - [2] Geografische Verteilung der Kunden (Kartenvisualisierung)
-- [ ] Kundendichte pro Bundesland oder Stadt
+- [1] Kundendichte pro Bundesland oder Stadt
 - [2] Kaufhäufigkeit pro Kunde (Top-Kunden)
 - [2] Durchschnittlicher Bestellwert pro Kunde
 - [2] Wiederkehrende Kunden (mehr als eine Bestellung)
