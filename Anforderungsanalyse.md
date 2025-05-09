@@ -1,43 +1,43 @@
 # Dashboard-Auswertungen: Abstimmung
 
 ## Kundenanalyse
-- [1] Geografische Verteilung der Kunden (Kartenvisualisierung)
+- [2] Geografische Verteilung der Kunden (Kartenvisualisierung)
 - [ ] Kundendichte pro Bundesland oder Stadt
-- [1] Kaufhäufigkeit pro Kunde (Top-Kunden)
-- [1] Durchschnittlicher Bestellwert pro Kunde
-- [1] Wiederkehrende Kunden (mehr als eine Bestellung)
+- [2] Kaufhäufigkeit pro Kunde (Top-Kunden)
+- [2] Durchschnittlicher Bestellwert pro Kunde
+- [2] Wiederkehrende Kunden (mehr als eine Bestellung)
 - [ ] Kundensegmentierung
 
 ## Filialanalyse
-- [1] Umsatz pro Filiale
-- [ ] Umsatz einzelner Filialen über Zeit (auch möglich mit Vergleich)
-- [ ] Umsatz nach Staat
-- [1] Kundenreichweite pro Filiale (Anzahl Kunden)
-- [1] Durchschnittliche Distanz zwischen Kunden und Filiale
-- [1] Produkt-Verkäufe pro Filiale
+- [2] Umsatz pro Filiale
+- [1] Umsatz einzelner Filialen über Zeit (auch möglich mit Vergleich)
+- [1] Umsatz nach Staat
+- [2] Kundenreichweite pro Filiale (Anzahl Kunden)
+- [2] Durchschnittliche Distanz zwischen Kunden und Filiale
+- [2] Produkt-Verkäufe pro Filiale
 
 
 ## Produktanalyse
-- [1] Beliebteste Produkte (Verkaufszahlen)
-- [1] Umsatz pro Produkt oder Produktkategorie
-- [1] Produktleistung nach Einführungsdatum 
-- [1] Durchschnittspreis pro Produktkategorie
-- [1] Korrelation zwischen Preis und Verkaufszahlen
+- [2] Beliebteste Produkte (Verkaufszahlen)
+- [2] Umsatz pro Produkt oder Produktkategorie
+- [2] Produktleistung nach Einführungsdatum 
+- [2] Durchschnittspreis pro Produktkategorie
+- [2] Korrelation zwischen Preis und Verkaufszahlen
 
 ## Bestellanalyse
-- [1] Umsatzentwicklung über die Zeit (monatlich/jährlich)
+- [2] Umsatzentwicklung über die Zeit (monatlich/jährlich)
 - [ ] Saisonale Umsatzmuster
-- [ ] Ranking Bestellungen mit hoher Volatilität
+- [1] Ranking Bestellungen mit hoher Volatilität
 - [ ] Durchschnittliche Anzahl Artikel pro Bestellung
-- [1] Durchschnittlicher Bestellwert
+- [2] Durchschnittlicher Bestellwert
 - [ ] Wird oft zusammen gekauft (Warenkorb / Orders)
 
 ## Geografische Analysen
-- [1] Durchschnittliche Distanz zwischen Kunden und Filialen
-- [1] Kunden-Filial-Zuordnung basierend auf Nähe
-- [1] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
+- [2] Durchschnittliche Distanz zwischen Kunden und Filialen
+- [2] Kunden-Filial-Zuordnung basierend auf Nähe
+- [2] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
 - [ ] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
-- [ ] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
+- [1] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
 
 ## Trends und Vorhersagen
 - [1] Saisonale Verkaufstrends nach Produktkategorie
@@ -50,19 +50,19 @@
 - [ ] Audit-Log
 
 ## Visualisierungsideen
-- [1] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
-- [1] Balken-/Liniendiagramme (Umsatz, Produktkategorien, Zeitverlauf)
-- [1] Tortendiagramme (Produktkategorien-Anteile)
-- [1] Tabellen (Top-Kunden, Top-Produkte, Filialleistung)
-- [1] Heatmaps (saisonale Muster, Kundendichte)
+- [2] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
+- [2] Balken-/Liniendiagramme (Umsatz, Produktkategorien, Zeitverlauf)
+- [2] Tortendiagramme (Produktkategorien-Anteile)
+- [2] Tabellen (Top-Kunden, Top-Produkte, Filialleistung)
+- [2] Heatmaps (saisonale Muster, Kundendichte)
 - [ ] Interaktive Dashboards mit Drilldown Funktionen
 - [ ] Histogramme (z.B. Bestellwertverteilung)
 - [ ] Boxplots (z.B. zur Analyse von Streuung bei Filialumsätzen oder Lieferzeiten)
 - [ ] Trendlinien wenn möglich
 
 ## Empfehlungen
-- [1] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
-- [1] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
+- [2] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
+- [2] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
 - [ ] Exportfunktionen (??)
 - [ ] In Abhängigkeit mit Nutzerverwaltung --> Nutzerabhängige Dashboards
 - [ ] Erklärungen zu Funktionen (ein "i" für Info zb)
