@@ -10,6 +10,7 @@
 
 ## Filialanalyse
 - [1] Umsatz pro Filiale
+- [ ] Umsatz einzelner Filialen über Zeit (auch möglich mit Vergleich)
 - [ ] Umsatz nach Staat
 - [1] Kundenreichweite pro Filiale (Anzahl Kunden)
 - [1] Durchschnittliche Distanz zwischen Kunden und Filiale
@@ -18,15 +19,17 @@
 ## Produktanalyse
 - [1] Beliebteste Produkte (Verkaufszahlen)
 - [1] Umsatz pro Produkt oder Produktkategorie
-- [1] Produktleistung nach Einführungsdatum
+- [1] Produktleistung nach Einführungsdatum 
 - [1] Durchschnittspreis pro Produktkategorie
 - [1] Korrelation zwischen Preis und Verkaufszahlen
 
 ## Bestellanalyse
 - [1] Umsatzentwicklung über die Zeit (monatlich/jährlich)
 - [ ] Saisonale Umsatzmuster
+- [ ] Ranking Bestellungen mit hoher Volatilität
 - [ ] Durchschnittliche Anzahl Artikel pro Bestellung
 - [1] Durchschnittlicher Bestellwert
+- [ ] Wird oft zusammen gekauft (Warenkorb / Orders)
 
 ## Geografische Analysen
 - [1] Durchschnittliche Distanz zwischen Kunden und Filialen
@@ -53,12 +56,14 @@
 - [ ] Interaktive Dashboards mit Drilldown Funktionen
 - [ ] Histogramme (z.B. Bestellwertverteilung)
 - [ ] Boxplots (z.B. zur Analyse von Streuung bei Filialumsätzen oder Lieferzeiten)
+- [ ] Trendlinien wenn möglich
 
 ## Empfehlungen
 - [1] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
 - [1] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
 - [ ] Exportfunktionen (??)
 - [ ] In Abhängigkeit mit Nutzerverwaltung --> Nutzerabhängige Dashboards
+- [ ] Erklärungen zu Funktionen (ein "i" für Info zb)
 
 ### Anweisungen
 - Setze `[Zahl + 1 oder 1 wenn noch keine Zahl]` bei den Punkten, die du priorisieren möchtest.
