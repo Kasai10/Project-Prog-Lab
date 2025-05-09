@@ -1,42 +1,41 @@
 # Dashboard-Auswertungen: Abstimmung
 
 ## Kundenanalyse
-- [3] Geografische Verteilung der Kunden (Kartenvisualisierung)
-- [1] Kundendichte pro Bundesland oder Stadt
-- [2] Kaufhäufigkeit pro Kunde (Top-Kunden)
-- [3] Durchschnittlicher Bestellwert pro Kunde
-- [3] Wiederkehrende Kunden (mehr als eine Bestellung)
-- [ ] Kundensegmentierung
+- [4] Geografische Verteilung der Kunden (Kartenvisualisierung)
+- [2] Kundendichte pro Bundesland oder Stadt
+- [3] Kaufhäufigkeit pro Kunde (Top-Kunden)
+- [4] Durchschnittlicher Bestellwert pro Kunde
+- [4] Wiederkehrende Kunden (mehr als eine Bestellung)
 
 ## Filialanalyse
-- [3] Umsatz pro Filiale
-- [2] Umsatz einzelner Filialen über Zeit (auch möglich mit Vergleich)
-- [2] Umsatz nach Staat
-- [3] Kundenreichweite pro Filiale (Anzahl Kunden)
-- [3] Durchschnittliche Distanz zwischen Kunden und Filiale
-- [3] Produkt-Verkäufe pro Filiale
+- [4] Umsatz pro Filiale
+- [3] Umsatz einzelner Filialen über Zeit (auch möglich mit Vergleich)
+- [3] Umsatz nach Staat
+- [4] Kundenreichweite pro Filiale (Anzahl Kunden)
+- [4] Durchschnittliche Distanz zwischen Kunden und Filiale
+- [4] Produkt-Verkäufe pro Filiale
 
 ## Produktanalyse
-- [3] Beliebteste Produkte (Verkaufszahlen)
-- [3] Umsatz pro Produkt oder Produktkategorie
-- [3] Produktleistung nach Einführungsdatum 
-- [3] Durchschnittspreis pro Produktkategorie
-- [3] Korrelation zwischen Preis und Verkaufszahlen
+- [4] Beliebteste Produkte (Verkaufszahlen)
+- [4] Umsatz pro Produkt oder Produktkategorie
+- [4] Produktleistung nach Einführungsdatum 
+- [4] Durchschnittspreis pro Produktkategorie
+- [4] Korrelation zwischen Preis und Verkaufszahlen
 
 ## Bestellanalyse
-- [2] Umsatzentwicklung über die Zeit (monatlich/jährlich)
+- [3] Umsatzentwicklung über die Zeit (monatlich/jährlich)
 - [1] Saisonale Umsatzmuster
-- [2] Ranking Bestellungen mit hoher Volatilität
-- [1] Durchschnittliche Anzahl Artikel pro Bestellung
-- [2] Durchschnittlicher Bestellwert
-- [1] Wird oft zusammen gekauft (Warenkorb / Orders)
+- [3] Ranking Bestellungen mit hoher Volatilität
+- [2] Durchschnittliche Anzahl Artikel pro Bestellung
+- [3] Durchschnittlicher Bestellwert
+- [2] Wird oft zusammen gekauft (Warenkorb / Orders)
 
 ## Geografische Analysen
-- [3] Durchschnittliche Distanz zwischen Kunden und Filialen
-- [2] Kunden-Filial-Zuordnung basierend auf Nähe
-- [3] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
-- [ ] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
-- [2] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
+- [4] Durchschnittliche Distanz zwischen Kunden und Filialen
+- [3] Kunden-Filial-Zuordnung basierend auf Nähe
+- [4] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
+- [2] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
+- [3] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
 
 ## Trends und Vorhersagen
 - [2] Saisonale Verkaufstrends nach Produktkategorie
@@ -45,26 +44,26 @@
 - [1] Frühwarnsystem für Umsatzrückgänge (via Schwellenwert-Erkennung)
 
 ## Nutzerverwaltung
-- [ ] Unterschiedliche Zugriffsrechte (Admin, Analyst, Filialleiter)
-- [ ] Audit-Log
+- [1] Unterschiedliche Zugriffsrechte (Admin, Analyst, Filialleiter)
+- [1] Audit-Log
 
 ## Visualisierungsideen
-- [3] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
-- [3] Balken-/Liniendiagramme (Umsatz, Produktkategorien, Zeitverlauf)
-- [3] Tortendiagramme (Produktkategorien-Anteile)
-- [3] Tabellen (Top-Kunden, Top-Produkte, Filialleistung)
-- [3] Heatmaps (saisonale Muster, Kundendichte)
-- [ ] Interaktive Dashboards mit Drilldown Funktionen
-- [ ] Histogramme (z.B. Bestellwertverteilung)
-- [ ] Boxplots (z.B. zur Analyse von Streuung bei Filialumsätzen oder Lieferzeiten)
-- [1] Trendlinien wenn möglich
+- [4] Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)
+- [4] Balken-/Liniendiagramme (Umsatz, Produktkategorien, Zeitverlauf)
+- [4] Tortendiagramme (Produktkategorien-Anteile)
+- [4] Tabellen (Top-Kunden, Top-Produkte, Filialleistung)
+- [4] Heatmaps (saisonale Muster, Kundendichte)
+- [1] Interaktive Dashboards mit Drilldown Funktionen
+- [1] Histogramme (z.B. Bestellwertverteilung)
+- [1] Boxplots (z.B. zur Analyse von Streuung bei Filialumsätzen oder Lieferzeiten)
+- [2] Trendlinien wenn möglich
 
 ## Empfehlungen
-- [3] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
-- [3] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
-- [ ] Exportfunktionen (??)
-- [ ] In Abhängigkeit mit Nutzerverwaltung --> Nutzerabhängige Dashboards
-- [1] Erklärungen zu Funktionen (ein "i" für Info zb)
+- [4] Filteroptionen (Zeitraum, Bundesland, Stadt, Produktkategorie, Filiale)
+- [4] Zentrale KPIs (Gesamtumsatz, Bestellwert, Kundenwachstum)
+- [1] Exportfunktionen (??)
+- [1] In Abhängigkeit mit Nutzerverwaltung --> Nutzerabhängige Dashboards
+- [2] Erklärungen zu Funktionen (ein "i" für Info zb)
 
 ### Anweisungen
 - Setze `[Zahl + 1 oder 1 wenn noch keine Zahl]` bei den Punkten, die du priorisieren möchtest.
