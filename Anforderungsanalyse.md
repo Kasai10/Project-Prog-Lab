@@ -8,7 +8,7 @@
 - [2] Kundendichte pro Bundesland oder Stadt
 
 ## Filialanalyse
-- [4] +*Kundenreichweite pro Filiale (Anzahl Kunden)**
+- [4] **Kundenreichweite pro Filiale (Anzahl Kunden)**
 - [4] **Durchschnittliche Distanz zwischen Kunden und Filiale**
 - [4] **Produkt-Verkäufe pro Filiale**
 - [4] Umsatz pro Filiale
@@ -30,8 +30,8 @@
 - [2] Wird oft zusammen gekauft (Warenkorb / Orders)
 
 ## Geografische Analysen
-- [4] Durchschnittliche Distanz zwischen Kunden und Filialen
-- [4] Potenzielle Standorte für neue Filialen (hohe Distanzregionen)
+- [4] **Durchschnittliche Distanz zwischen Kunden und Filialen**
+- [4] **Potenzielle Standorte für neue Filialen (hohe Distanzregionen)**
 - [3] Kunden-Filial-Zuordnung basierend auf Nähe
 - [3] White-Spot-Analyse: Regionen mit vielen Kunden, aber ohne nahe Filiale.
 - [2] Gebiete mit unterdurchschnittlicher Marktdurchdringung (Wachstumspotenzial)
