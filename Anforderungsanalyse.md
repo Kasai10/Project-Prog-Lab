@@ -23,7 +23,6 @@
 - [4] **Korrelation zwischen Preis und Verkaufszahlen**
 
 ## Bestellanalyse
-- [3] Umsatzentwicklung über die Zeit (monatlich/jährlich)
 - [3] Ranking Bestellungen mit hoher Volatilität
 - [3] Durchschnittlicher Bestellwert
 - [2] Durchschnittliche Anzahl Artikel pro Bestellung
@@ -39,10 +38,9 @@
 
 ## Trends und Vorhersagen
 - [2] Saisonale Verkaufstrends nach Produktkategorie
-- [2] Wachstum der Bestellungen/Umsätze im Jahresvergleich
+- [2] Wachstum der Bestellungen im Jahresvergleich
+- [2] Wachstum der Umsätze im Jahresvergleich
 - [2] Identifikation von Spitzenzeiten (z. B. Feiertage)
-- [1] Frühwarnsystem für Umsatzrückgänge (via Schwellenwert-Erkennung)
-
 
 ## Visualisierungsideen
 - [4] **Kartenvisualisierungen (Kunden-/Filialstandorte, Umsatzverteilung)**
