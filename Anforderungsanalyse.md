@@ -1,7 +1,7 @@
 # Dashboard-Auswertungen: Abstimmung
 
 ## Kundenanalyse
-- [4] Geografische Verteilung der Kunden (Kartenvisualisierung)
+- [4] *Geografische Verteilung der Kunden (Kartenvisualisierung)*
 - [2] Kundendichte pro Bundesland oder Stadt
 - [3] Kaufhäufigkeit pro Kunde (Top-Kunden)
 - [4] Durchschnittlicher Bestellwert pro Kunde
