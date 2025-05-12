@@ -269,4 +269,10 @@ pip install -r requirements.txt
 - **User Management**: Extend `api/routes/` with authentication endpoints (e.g., `/api/auth`) for user-specific dashboards.
 - **Drill-down**: Supported by `dash_app/callbacks/` and `dcc.Store` for state management.
 
-This structure and dependencies provide a solid foundation for implementing the dashboard while meeting all requirements.
+This structure and dependencies provide a solid foundation for implementing the dashboard while meeting all requirement
+
+---
+
+## **Datenflussdiagramm:**
+
+![Datenflussdiagramm.png](https://github.com/marvingoenner/Project-Prog-Lab/blob/4fd27a48f8703328016c910f4a86d5dd89a68edf/Datenflussdiagramm.png)
