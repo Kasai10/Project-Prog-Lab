@@ -83,35 +83,34 @@ customer_dashboard/
 │   │   │   # GET /api/customers/avg_order: Average order value per customer
 │   │   │   # GET /api/customers/recurring: Recurring customers
 │   │   ├── orders.py             # Order endpoints
-│   │   │   # GET /api/orders/trend: Sales trend over time
-│   │   │   # GET /api/orders/seasonal: Seasonal patterns
 │   │   │   # GET /api/orders/volatility: Orders with high volatility
 │   │   │   # GET /api/orders/avg_items: Average items per order
 │   │   │   # GET /api/orders/avg_value: Average order value
 │   │   │   # GET /api/orders/basket: Frequently bought together
 │   │   ├── stores.py             # Store (branch) endpoints
-│   │   │   # GET /api/stores/sales: Sales per store
-│   │   │   # GET /api/stores/sales_trend: Sales trend per store
-│   │   │   # GET /api/stores/sales_by_state: Sales by state
+│   │   │   # GET /api/stores/revenue: Revenue per store
+│   │   │   # GET /api/stores/revenue_trend: Revenue trend per time
+│   │   │   # GET /api/stores/revenue_by_state: Revenue by state
 │   │   │   # GET /api/stores/customer_reach: Customer count per store
 │   │   │   # GET /api/stores/product_sales: Product sales per store
+│   │   │   # GET /api/stores/product_sales: Average distance customerToStore
 │   │   ├── products.py           # Product endpoints
 │   │   │   # GET /api/products/top: Top products by sales
-│   │   │   # GET /api/products/sales: Sales by product/category
+│   │   │   # GET /api/products/revenue: Revenue by product/category
 │   │   │   # GET /api/products/performance: Performance by launch date
 │   │   │   # GET /api/products/avg_price: Average price by category
 │   │   │   # GET /api/products/price_sales: Price-sales correlation
 │   │   ├── geo.py                # Geographical endpoints
-│   │   │   # GET /api/geo/distance: Average customer-store distance
+│   │   │   # GET /api/geo/distance: Average customer-store distance          
 │   │   │   # GET /api/geo/assignment: Customer-store assignment by proximity
 │   │   │   # GET /api/geo/potential_locations: Potential new store locations
 │   │   │   # GET /api/geo/low_penetration: Low market penetration areas
 │   │   │   # GET /api/geo/white_spot: White-spot analysis
 │   │   ├── trends.py             # Trend endpoints
-│   │   │   # GET /api/trends/seasonal: Seasonal trends by category
-│   │   │   # GET /api/trends/growth: Order/sales growth
+│   │   │   # GET /api/trends/seasonal: Seasonal trends by  category
+│   │   │   # GET /api/trends/growth/order: Order growth
+│   │   │   # GET /api/trends/growth/revenue: Revenue growth
 │   │   │   # GET /api/trends/peak_times: Peak times (e.g., holidays)
-│   │   │   # GET /api/trends/warning: Early warning for sales drops
 │   │   └── kpis.py               # KPI endpoints
 │   │       # GET /api/kpis: Total sales, avg order value, customer growth
 │   ├── models/                   # SQLAlchemy models
