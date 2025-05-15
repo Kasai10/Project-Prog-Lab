@@ -160,28 +160,9 @@ customer_dashboard/
 │   │   ├── __init__.py
 │   │   └── generate_sample_data.py # Sample data generation
 │   └── sample_data.db            # SQLite DB (development)
-├── tests/                        # Tests
-│   ├── __init__.py
-│   ├── test_api/                 # API tests
-│   │   ├── __init__.py
-│   │   ├── test_customers.py     # Customer endpoint tests
-│   │   ├── test_orders.py        # Order endpoint tests
-│   │   ├── test_stores.py        # Store endpoint tests
-│   │   ├── test_products.py      # Product endpoint tests
-│   │   └── test_kpis.py          # KPI endpoint tests
-│   └── test_dash/                # Dash tests
-│       ├── __init__.py
-│       └── test_visualizations.py # Visualization tests
-├── docs.ConcurrentHashMap        # Documentation
-│   ├── requirements.md           # Anforderungsanalyse
-│   ├── setup.md                 # Setup instructions
-│   └── api.md                    # API documentation
 ├── .gitignore                    # Git ignore
 ├── README.md                     # Project overview
 ├── requirements.txt              # Dependencies
-├── Procfile                      # Deployment config
-├── runtime.txt                   # Python version
-├── wsgi.py                       # WSGI entry point
 └── app.py                        # Main app entry point
 ```
 
