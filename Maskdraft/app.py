@@ -6,30 +6,49 @@ import numpy as np
 from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.graph_objects as go
-import mysql.connector
 import os
-from dotenv import load_dotenv
+import logging
 from math import radians, cos, sin, asin, sqrt
 
-# Umgebungsvariablen laden
-load_dotenv()
+# Logging konfigurieren
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# MySQL-Verbindung
-conn = mysql.connector.connect(
-    host=os.getenv("DB_HOST"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME")
-)
+# Mockdaten-Verzeichnis
+MOCK_DATA_DIR = "mock_data"
 
-# Daten laden
-customers_df = pd.read_sql("SELECT * FROM customers", conn)
-orders_df = pd.read_sql("SELECT * FROM orders", conn)
-orderitems_df = pd.read_sql("SELECT * FROM orderitems", conn)
-products_df = pd.read_sql("SELECT * FROM products", conn)
-ingredients_df = pd.read_sql("SELECT * FROM ingredients", conn)
-productingredients_df = pd.read_sql("SELECT * FROM productingredients", conn)
-stores_df = pd.read_sql("SELECT * FROM stores", conn)
+# Funktion zum Laden von Mockdaten
+def load_mock_data(file_name):
+    file_path = os.path.join(MOCK_DATA_DIR, file_name)
+    try:
+        df = pd.read_csv(file_path)
+        logger.info(f"✅ Mockdaten aus {file_name} geladen: {len(df)} Zeilen")
+        return df
+    except Exception as e:
+        logger.error(f"❌ Fehler beim Laden von {file_name}: {str(e)}")
+        raise
+
+# Mockdaten laden
+try:
+    customers_df = load_mock_data("customers.csv")
+    orders_df = load_mock_data("orders.csv")
+    orderitems_df = load_mock_data("orderitems.csv")
+    products_df = load_mock_data("products.csv")
+    ingredients_df = load_mock_data("ingredients.csv")
+    productingredients_df = load_mock_data("productingredients.csv")
+    stores_df = load_mock_data("stores.csv")
+
+    # Datentypen korrigieren
+    orders_df['orderDate'] = pd.to_datetime(orders_df['orderDate'])
+    products_df['Launch'] = pd.to_datetime(products_df['Launch'])
+except Exception as e:
+    app = dash.Dash(__name__)
+    app.layout = html.Div([
+        html.H1("Fehler beim Laden der Mockdaten", className="text-danger text-center mt-5"),
+        html.P(f"Fehler: {str(e)}", className="text-center")
+    ])
+    logger.error("Anwendung gestoppt wegen Fehler beim Laden der Mockdaten")
+    raise SystemExit
 
 # Dash-App initialisieren
 app = dash.Dash(
@@ -44,7 +63,7 @@ app = dash.Dash(
 app.title = "Erweitertes Analyse-Dashboard"
 app.config.suppress_callback_exceptions = True
 
-# Navigation
+# Navigation mit Dropdowns für Unterseiten
 navbar = dbc.NavbarSimple(
     brand="Analyse-Dashboard",
     brand_href="/",
@@ -52,12 +71,84 @@ navbar = dbc.NavbarSimple(
     dark=True,
     fluid=True,
     children=[
-        dbc.NavItem(dbc.NavLink("Kundenanalyse", href="/kundenanalyse", id="nav-kunden")),
-        dbc.NavItem(dbc.NavLink("Filialanalyse", href="/filialanalyse", id="nav-filialen")),
-        dbc.NavItem(dbc.NavLink("Produktanalyse", href="/produktanalyse", id="nav-produkte")),
-        dbc.NavItem(dbc.NavLink("Bestellanalyse", href="/bestellanalyse", id="nav-bestellungen")),
-        dbc.NavItem(dbc.NavLink("Geografische Analysen", href="/geografisch", id="nav-geografisch")),
-        dbc.NavItem(dbc.NavLink("Trends & Vorhersagen", href="/trends", id="nav-trends")),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Geografische Verteilung", href="/kundenanalyse/karte"),
+                dbc.DropdownMenuItem("Ø Bestellwert", href="/kundenanalyse/bestellwert"),
+                dbc.DropdownMenuItem("Wiederkehrende Kunden", href="/kundenanalyse/mehrfach"),
+                dbc.DropdownMenuItem("Top-Kunden", href="/kundenanalyse/topkunden"),
+                dbc.DropdownMenuItem("Kundendichte", href="/kundenanalyse/dichte"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Kundenanalyse",
+            className="nav-item"
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Kundenreichweite", href="/filialanalyse/kundenreichweite"),
+                dbc.DropdownMenuItem("Ø Distanz", href="/filialanalyse/distanz"),
+                dbc.DropdownMenuItem("Produktverkäufe", href="/filialanalyse/produkte"),
+                dbc.DropdownMenuItem("Umsatz", href="/filialanalyse/umsatz"),
+                dbc.DropdownMenuItem("Umsatz Zeitverlauf", href="/filialanalyse/zeitverlauf"),
+                dbc.DropdownMenuItem("Umsatz nach Staat", href="/filialanalyse/staat"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Filialanalyse",
+            className="nav-item"
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Beliebteste Produkte", href="/produktanalyse/beliebt"),
+                dbc.DropdownMenuItem("Umsatz", href="/produktanalyse/umsatz"),
+                dbc.DropdownMenuItem("Launch-Performance", href="/produktanalyse/launchperformance"),
+                dbc.DropdownMenuItem("Ø Preis", href="/produktanalyse/preise"),
+                dbc.DropdownMenuItem("Preis-Verkauf Korrelation", href="/produktanalyse/korrelation"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Produktanalyse",
+            className="nav-item"
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Umsatz Zeitverlauf", href="/bestellanalyse/zeitverlauf"),
+                dbc.DropdownMenuItem("Hohe Volatilität", href="/bestellanalyse/volatil"),
+                dbc.DropdownMenuItem("Ø Bestellwert", href="/bestellanalyse/durchschnitt"),
+                dbc.DropdownMenuItem("Ø Artikelanzahl", href="/bestellanalyse/artikelanzahl"),
+                dbc.DropdownMenuItem("Kombikauf", href="/bestellanalyse/kombikauf"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Bestellanalyse",
+            className="nav-item"
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Ø Distanz", href="/geografisch/distanz"),
+                dbc.DropdownMenuItem("Neue Standorte", href="/geografisch/standorte"),
+                dbc.DropdownMenuItem("Kunden-Zuordnung", href="/geografisch/zuordnung"),
+                dbc.DropdownMenuItem("White-Spot-Analyse", href="/geografisch/whitespots"),
+                dbc.DropdownMenuItem("Wachstumsgebiete", href="/geografisch/wachstum"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Geografische Analysen",
+            className="nav-item"
+        ),
+        dbc.DropdownMenu(
+            children=[
+                dbc.DropdownMenuItem("Saisonale Trends", href="/trends/saisonal"),
+                dbc.DropdownMenuItem("Wachstum", href="/trends/wachstum"),
+                dbc.DropdownMenuItem("Spitzenzeiten", href="/trends/spitzenzeiten"),
+                dbc.DropdownMenuItem("Frühwarnsystem", href="/trends/fruehwarnung"),
+            ],
+            nav=True,
+            in_navbar=True,
+            label="Trends & Vorhersagen",
+            className="nav-item"
+        ),
         dbc.DropdownMenu(
             children=[
                 dbc.DropdownMenuItem("Profil", href="#"),
@@ -72,7 +163,6 @@ navbar = dbc.NavbarSimple(
     className="mb-4"
 )
 
-# Hilfsfunktion für Zurück-Button
 def with_back_button(content):
     return html.Div([
         html.Div([
@@ -81,102 +171,13 @@ def with_back_button(content):
         content
     ])
 
-# Startseite
 start_page = html.Div([
     html.H1("Willkommen beim Analyse-Dashboard", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie einen Bereich für detaillierte Analysen.", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Kundenanalyse", href="/kundenanalyse"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Filialanalyse", href="/filialanalyse"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Produktanalyse", href="/produktanalyse"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Bestellanalyse", href="/bestellanalyse"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Geografische Analysen", href="/geografisch"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Trends & Vorhersagen", href="/trends"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
+    html.P("Wählen Sie eine Analyseart aus der Navigation oben.", className="text-center mb-4 text-light"),
 ])
 
-# Kundenanalyse-Seite
-kundenanalyse_page = html.Div([
-    html.H2("Kundenanalyse", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Geografische Verteilung", href="/kundenanalyse/karte"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Ø Bestellwert", href="/kundenanalyse/bestellwert"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Wiederkehrende Kunden", href="/kundenanalyse/mehrfach"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Top-Kunden", href="/kundenanalyse/topkunden"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Kundendichte", href="/kundenanalyse/dichte"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Filialanalyse-Seite
-filialanalyse_page = html.Div([
-    html.H2("Filialanalyse", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Kundenreichweite", href="/filialanalyse/kundenreichweite"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Ø Distanz", href="/filialanalyse/distanz"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Produktverkäufe", href="/filialanalyse/produkte"), body=True, className="mb-3 shadow"), width=4),
-        kbc.Col(dbc.Card(dcc.Link("Umsatz", href="/filialanalyse/umsatz"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Umsatz Zeitverlauf", href="/filialanalyse/zeitverlauf"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Umsatz nach Staat", href="/filialanalyse/staat"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Produktanalyse-Seite
-produktanalyse_page = html.Div([
-    html.H2("Produktanalyse", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Beliebteste Produkte", href="/produktanalyse/beliebt"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Umsatz", href="/produktanalyse/umsatz"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Launch-Performance", href="/produktanalyse/launchperformance"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Ø Preis", href="/produktanalyse/preise"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Preis-Verkauf Korrelation", href="/produktanalyse/korrelation"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Bestellanalyse-Seite
-bestellanalyse_page = html.Div([
-    html.H2("Bestellanalyse", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Umsatz Zeitverlauf", href="/bestellanalyse/zeitverlauf"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Hohe Volatilität", href="/bestellanalyse/volatil"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Ø Bestellwert", href="/bestellanalyse/durchschnitt"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Ø Artikelanzahl", href="/bestellanalyse/artikelanzahl"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Kombikauf", href="/bestellanalyse/kombikauf"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Geografische Analysen-Seite
-geografischanalyse_page = html.Div([
-    html.H2("Geografische Analysen", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Ø Distanz", href="/geografisch/distanz"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Neue Standorte", href="/geografisch/standorte"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Kunden-Zuordnung", href="/geografisch/zuordnung"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("White-Spot-Analyse", href="/geografisch/whitespots"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Wachstumsgebiete", href="/geografisch/wachstum"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Trends & Vorhersagen-Seite
-trends_page = html.Div([
-    html.H2("Trends & Vorhersagen", className="text-center mb-4 animate__animated animate__fadeIn"),
-    html.P("Wählen Sie eine Analyseart:", className="text-center mb-4 text-light"),
-    dbc.Row([
-        dbc.Col(dbc.Card(dcc.Link("Saisonale Trends", href="/trends/saisonal"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Wachstum", href="/trends/wachstum"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Spitzenzeiten", href="/trends/spitzenzeiten"), body=True, className="mb-3 shadow"), width=4),
-        dbc.Col(dbc.Card(dcc.Link("Frühwarnsystem", href="/trends/fruehwarnung"), body=True, className="mb-3 shadow"), width=4)
-    ], justify="center")
-])
-
-# Kundenanalyse-Unterseiten
 topkunden_page = html.Div([
     html.H2("Top 10 Kunden nach Kaufhäufigkeit", className="text-center mb-4 animate__animated animate__fadeIn"),
-    # KPI-Karten
     dbc.Row([
         dbc.Col(dbc.Card([
             dbc.CardBody([
@@ -201,7 +202,6 @@ topkunden_page = html.Div([
 
 bestellwert_page = html.Div([
     html.H2("Durchschnittlicher Bestellwert pro Kunde", className="text-center mb-4 animate__animated animate__fadeIn"),
-    # Filter
     dbc.Row([
         dbc.Col([
             html.Label("Kunde auswählen:", className="text-light"),
@@ -211,11 +211,15 @@ bestellwert_page = html.Div([
                 value=None,
                 placeholder="Kunden-ID auswählen",
                 className="mb-3",
-                style={"backgroundColor": "#333", "color": "#fff"}
+                style={
+                    "backgroundColor": "#000000",
+                    "color": "#fff",
+                    "border": "1px solid #444",
+                    "borderRadius": "4px"
+                }
             )
         ], width=4)
     ], className="mb-4"),
-    # KPI-Karten
     dbc.Row([
         dbc.Col(dbc.Card([
             dbc.CardBody([
@@ -223,9 +227,11 @@ bestellwert_page = html.Div([
                 html.H2(id="kpi-gesamt-durchschnitt", className="card-text")
             ])
         ], color="secondary", inverse=True, className="shadow"), width=3),
-        dbc.Col(dbc.DataTable([
-            html.H4("Ausgewählter Kunde Ø", className="card-title"),
-            html.H2(id="kpi-kunden-durchschnitt", className="card-text")
+        dbc.Col(dbc.Card([
+            dbc.CardBody([
+                html.H4("Ausgewählter Kunde Ø", className="card-title"),
+                html.H2(id="kpi-kunden-durchschnitt", className="card-text")
+            ])
         ], color="info", inverse=True, className="shadow"), width=3)
     ], className="mb-4"),
     dcc.Graph(id="bestellwert-plot"),
@@ -241,7 +247,6 @@ kundenkarte_page = html.Div([
     dcc.Graph(id="kundenkarte", style={"height": "600px"})
 ])
 
-# Filialanalyse-Unterseiten
 reichweite_page = html.Div([
     html.H2("Kundenreichweite pro Filiale", className="text-center mb-4 animate__animated animate__fadeIn"),
     dbc.Row([
@@ -253,14 +258,18 @@ reichweite_page = html.Div([
                          for _, row in stores_df.iterrows()],
                 placeholder="Filiale auswählen",
                 className="mb-3",
-                style={"backgroundColor": "#333", "color": "#fff"}
+                style={
+                    "backgroundColor": "#000000",
+                    "color": "#fff",
+                    "border": "1px solid #444",
+                    "borderRadius": "4px"
+                }
             )
         ], width=4)
     ], className="mb-4"),
     dcc.Graph(id="reichweite-karte", style={"height": "600px"})
 ])
 
-# Produktanalyse-Unterseiten
 beliebte_produkte_page = html.Div([
     html.H2("Beliebteste Produkte", className="text-center mb-4 animate__animated animate__fadeIn"),
     dbc.Row([
@@ -315,7 +324,12 @@ launchperformance_page = html.Div([
                 multi=True,
                 placeholder="Produkte auswählen...",
                 className="mb-3",
-                style={"backgroundColor": "#333", "color": "#fff"}
+                style={
+                    "backgroundColor": "#000000",
+                    "color": "#fff",
+                    "border": "1px solid #444",
+                    "borderRadius": "4px"
+                }
             )
         ], width=4)
     ], className="mb-4"),
@@ -327,7 +341,6 @@ korrelation_page = html.Div([
     dcc.Graph(id="korrelation-grafik")
 ])
 
-# Bestellanalyse-Unterseiten
 durchschnitt_page = html.Div([
     html.H2("Durchschnittlicher Bestellwert", className="text-center mb-4 animate__animated animate__fadeIn"),
     dbc.Row([
@@ -338,28 +351,23 @@ durchschnitt_page = html.Div([
                 options=[{"label": cid, "value": cid} for cid in sorted(orders_df["customerID"].unique())],
                 placeholder="Kunden-ID auswählen",
                 className="mb-3",
-                style={"backgroundColor": "#333", "color": "#fff"}
+                style={
+                    "backgroundColor": "#000000",
+                    "color": "#fff",
+                    "border": "1px solid #444",
+                    "borderRadius": "4px"
+                }
             )
         ], width=4)
     ], className="mb-4"),
-    dbc.Row([
-        dbc.Col(dbc.Card([
-            dbc.CardBody([
-                html.H4("Gesamt Ø Bestellwert", className="card-title"),
-                html.H2(id="kpi-gesamt-durchschnitt", className="card-text")
-            ])
-        ], color="secondary", inverse=True, className="shadow"), width=3),
-        dbc.Col(dbc.Card([
-            dbc.CardBody([
-                html.H4("Ausgewählter Kunde Ø", className="card-title"),
-                html.H2(id="kpi-kunden-durchschnitt", className="card-text")
-            ])
-        ], color="info", inverse=True, className="shadow"), width=3)
-    ], className="mb-4"),
-    dcc.Graph(id="durchschnitt-plot")
+    dcc.Graph(id="durchschnitt-plot"),
+    html.H3("Details", className="text-light mb-3"),
+    dash_table.DataTable(id="durchschnitt-tabelle", style_table={"overflowX": "auto"},
+                         style_cell={"backgroundColor": "#2d2d2d", "color": "white", "border": "1px solid #444"},
+                         style_header={"backgroundColor": "#1f77b4", "fontWeight": "bold", "color": "white"},
+                         page_size=10, sort_action="native")
 ])
 
-# Haversine-Funktion
 def haversine(lat1, lon1, lat2, lon2):
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
     dlon = lon2 - lon1
@@ -367,13 +375,12 @@ def haversine(lat1, lon1, lat2, lon2):
     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
     return 6371 * 2 * asin(sqrt(a))
 
-# Hauptlayout
 app.layout = html.Div([
+    dcc.Location(id="url"),
     navbar,
     dbc.Container(id="page-content", fluid=True, className="pt-4")
 ])
 
-# Callbacks
 @app.callback(
     Output("page-content", "children"),
     Input("url", "pathname")
@@ -381,21 +388,99 @@ app.layout = html.Div([
 def display_page(pathname):
     layouts = {
         "/": start_page,
-        "/kundenanalyse": with_back_button(kundenanalyse_page),
         "/kundenanalyse/topkunden": with_back_button(topkunden_page),
         "/kundenanalyse/bestellwert": with_back_button(bestellwert_page),
         "/kundenanalyse/karte": with_back_button(kundenkarte_page),
-        "/filialanalyse": with_back_button(filialanalyse_page),
+        "/kundenanalyse/mehrfach": with_back_button(html.Div([
+            html.H2("Wiederkehrende Kunden", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/kundenanalyse/dichte": with_back_button(html.Div([
+            html.H2("Kundendichte", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
         "/filialanalyse/kundenreichweite": with_back_button(reichweite_page),
-        "/produktanalyse": with_back_button(produktanalyse_page),
+        "/filialanalyse/distanz": with_back_button(html.Div([
+            html.H2("Ø Distanz", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/filialanalyse/produkte": with_back_button(html.Div([
+            html.H2("Produktverkäufe", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/filialanalyse/umsatz": with_back_button(html.Div([
+            html.H2("Umsatz", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/filialanalyse/zeitverlauf": with_back_button(html.Div([
+            html.H2("Umsatz Zeitverlauf", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/filialanalyse/staat": with_back_button(html.Div([
+            html.H2("Umsatz nach Staat", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
         "/produktanalyse/beliebt": with_back_button(beliebte_produkte_page),
         "/produktanalyse/umsatz": with_back_button(umsatz_produkt_page),
         "/produktanalyse/launchperformance": with_back_button(launchperformance_page),
         "/produktanalyse/korrelation": with_back_button(korrelation_page),
-        "/bestellanalyse": with_back_button(bestellanalyse_page),
+        "/produktanalyse/preise": with_back_button(html.Div([
+            html.H2("Ø Preis", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
         "/bestellanalyse/durchschnitt": with_back_button(durchschnitt_page),
-        "/geografisch": with_back_button(geografischanalyse_page),
-        "/trends": with_back_button(trends_page)
+        "/bestellanalyse/zeitverlauf": with_back_button(html.Div([
+            html.H2("Umsatz Zeitverlauf", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/bestellanalyse/volatil": with_back_button(html.Div([
+            html.H2("Hohe Volatilität", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/bestellanalyse/artikelanzahl": with_back_button(html.Div([
+            html.H2("Ø Artikelanzahl", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/bestellanalyse/kombikauf": with_back_button(html.Div([
+            html.H2("Kombikauf", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/geografisch/distanz": with_back_button(html.Div([
+            html.H2("Ø Distanz", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/geografisch/standorte": with_back_button(html.Div([
+            html.H2("Neue Standorte", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/geografisch/zuordnung": with_back_button(html.Div([
+            html.H2("Kunden-Zuordnung", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/geografisch/whitespots": with_back_button(html.Div([
+            html.H2("White-Spot-Analyse", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/geografisch/wachstum": with_back_button(html.Div([
+            html.H2("Wachstumsgebiete", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/trends/saisonal": with_back_button(html.Div([
+            html.H2("Saisonale Trends", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/trends/wachstum": with_back_button(html.Div([
+            html.H2("Wachstum", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/trends/spitzenzeiten": with_back_button(html.Div([
+            html.H2("Spitzenzeiten", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
+        "/trends/fruehwarnung": with_back_button(html.Div([
+            html.H2("Frühwarnsystem", className="text-center mb-4"),
+            html.P("Diese Seite ist noch nicht implementiert.", className="text-center text-light")
+        ])),
     }
     return layouts.get(pathname, with_back_button(html.Div([
         html.H2("Seite nicht gefunden", className="text-center mt-5"),
@@ -436,6 +521,7 @@ def update_topkunden(_):
 def update_bestellwert(selected_customer):
     df = orders_df.groupby("customerID")["total"].mean().reset_index()
     df.columns = ["Kunde", "Ø Bestellwert"]
+    df["Ø Bestellwert"] = df["Ø Bestellwert"].round(2)
     columns = [{"name": col, "id": col} for col in df.columns]
     fig = px.bar(
         df,
@@ -511,18 +597,19 @@ def update_reichweite_karte(filial_id):
 )
 def update_beliebteste_produkte(_):
     merged = pd.merge(orderitems_df, products_df, on="SKU")
-    grouped = merged.groupby("Name")["quantity"].sum().sort_values(ascending=False).reset_index()
-    columns = [{"name": "Produkt", "id": "Name"}, {"name": "Verkaufte Einheiten", "id": "quantity"}]
+    grouped = merged.groupby(["Name", "Size"])["quantity"].sum().sort_values(ascending=False).reset_index()
+    grouped["Produkt"] = grouped["Name"] + " (" + grouped["Size"] + ")"
+    columns = [{"name": "Produkt", "id": "Produkt"}, {"name": "Verkaufte Einheiten", "id": "quantity"}]
     fig = px.bar(
         grouped,
-        x="Name",
+        x="Produkt",
         y="quantity",
         title="Top-Produkte nach Verkaufsmenge",
-        labels={"Name": "Produkt", "quantity": "Verkaufte Einheiten"},
+        labels={"Produkt": "Produkt", "quantity": "Verkaufte Einheiten"},
         height=400
     )
-    fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white")
-    return (grouped.to_dict("records"), columns, fig, grouped["quantity"].iloc[0])
+    fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white", xaxis_tickangle=45)
+    return (grouped[["Produkt", "quantity"]].to_dict("records"), columns, fig, grouped["quantity"].iloc[0])
 
 @app.callback(
     [Output("umsatz-tabelle", "data"),
@@ -533,17 +620,19 @@ def update_beliebteste_produkte(_):
 def update_umsatz_tabelle(_):
     merged = orderitems_df.merge(products_df, on="SKU")
     merged["Umsatz"] = merged["quantity"] * merged["Price"]
-    umsatz_df = merged.groupby("Name")["Umsatz"].sum().reset_index().sort_values(by="Umsatz", ascending=False)
-    columns = [{"name": "Produkt", "id": "Name"}, {"name": "Umsatz (€)", "id": "Umsatz"}]
+    umsatz_df = merged.groupby(["Name", "Size"])["Umsatz"].sum().reset_index().sort_values(by="Umsatz", ascending=False)
+    umsatz_df["Produkt"] = umsatz_df["Name"] + " (" + umsatz_df["Size"] + ")"
+    umsatz_df["Umsatz"] = umsatz_df["Umsatz"].round(2)
+    columns = [{"name": "Produkt", "id": "Produkt"}, {"name": "Umsatz (€)", "id": "Umsatz"}]
     fig = px.bar(
         umsatz_df,
-        x="Name",
+        x="Produkt",
         y="Umsatz",
         title="Umsatz pro Produkt",
         height=400
     )
-    fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white")
-    return (umsatz_df.to_dict("records"), columns, fig)
+    fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white", xaxis_tickangle=45)
+    return (umsatz_df[["Produkt", "Umsatz"]].to_dict("records"), columns, fig)
 
 @app.callback(
     Output("launch-performance-graph", "figure"),
@@ -557,18 +646,19 @@ def update_launchperformance(selected_products, time_unit):
     merged["orderDate"] = pd.to_datetime(merged["orderDate"])
     merged = merged[merged["SKU"].isin(selected_products)]
     merged["Umsatz"] = merged["Price"] * merged["quantity"]
+    merged["Produkt"] = merged["Name"] + " (" + merged["Size"] + ")"
     if time_unit == "D":
         merged["Zeit"] = merged["orderDate"].dt.date
     elif time_unit == "M":
         merged["Zeit"] = merged["orderDate"].dt.to_period("M").dt.to_timestamp()
     elif time_unit == "Y":
         merged["Zeit"] = merged["orderDate"].dt.to_period("Y").dt.to_timestamp()
-    grouped = merged.groupby(["Zeit", "Name"]).agg({"Umsatz": "sum"}).reset_index()
+    grouped = merged.groupby(["Zeit", "Produkt"]).agg({"Umsatz": "sum"}).reset_index()
     fig = px.line(
         grouped,
         x="Zeit",
         y="Umsatz",
-        color="Name",
+        color="Produkt",
         markers=True,
         title="Produktumsatz über Zeit",
         height=600
@@ -583,11 +673,12 @@ def update_launchperformance(selected_products, time_unit):
 def update_korrelation(_):
     sales = orderitems_df.groupby("SKU")["quantity"].sum().reset_index()
     merged = pd.merge(sales, products_df, on="SKU")
+    merged["Produkt"] = merged["Name"] + " (" + merged["Size"] + ")"
     fig = px.scatter(
         merged,
         x="Price",
         y="quantity",
-        hover_name="Name",
+        hover_name="Produkt",
         size="quantity",
         color="Category",
         title="Zusammenhang zwischen Preis und Verkaufsmenge",
@@ -597,9 +688,39 @@ def update_korrelation(_):
     fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white")
     return fig
 
-# Server starten
+@app.callback(
+    [Output("durchschnitt-tabelle", "data"),
+     Output("durchschnitt-tabelle", "columns"),
+     Output("durchschnitt-plot", "figure")],
+    Input("kunde-auswahl", "value")
+)
+def update_durchschnitt(selected_customer):
+    df = orders_df.groupby("customerID")["total"].mean().reset_index()
+    df.columns = ["Kunde", "Ø Bestellwert"]
+    df["Ø Bestellwert"] = df["Ø Bestellwert"].round(2)
+    columns = [{"name": col, "id": col} for col in df.columns]
+    fig_data = df
+    if selected_customer:
+        fig_data = df[df["Kunde"] == selected_customer]
+    fig = px.bar(
+        fig_data,
+        x="Kunde",
+        y="Ø Bestellwert",
+        title="Ø Bestellwert pro Kunde",
+        color="Kunde",
+        height=400
+    )
+    fig.update_layout(plot_bgcolor="#2d2d2d", paper_bgcolor="#2d2d2d", font_color="white")
+    return (df.to_dict("records"), columns, fig)
+
+@app.callback(
+    Output("produkt-auswahl", "value"),
+    [Input("select-all-products", "n_clicks")]
+)
+def select_all_products(n_clicks):
+    if n_clicks > 0:
+        return products_df["SKU"].tolist()
+    return []
+
 if __name__ == "__main__":
-    try:
-        app.run(debug=True)
-    finally:
-        conn.close()
+    app.run(debug=True)

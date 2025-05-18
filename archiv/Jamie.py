@@ -5,38 +5,39 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import plotly.express as px
+import plotly.graph_objects as go
 import mysql.connector
 import os
+import logging
 from dotenv import load_dotenv
 from math import radians, cos, sin, asin, sqrt
-import plotly.graph_objects as go
+from sqlalchemy import create_engine
 
-
-load_dotenv()  # lädt .env-Datei
+# .env laden
+load_dotenv()
 print("DB_HOST:", os.getenv("DB_HOST"))
 
-# Verbindung mit Variablen aus .env
-conn = mysql.connector.connect(
-    host=os.getenv("DB_HOST"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME")
-)
+# Verbindungskette (URL) erstellen
+db_url = f"mysql+mysqlconnector://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
+engine = create_engine(db_url)
 
-print("✅ Verbindung erfolgreich!")
-conn.close()
+# Verbindung und Daten abrufen
+try:
+    with engine.connect() as conn:
+        print("✅ Verbindung zur Datenbank erfolgreich!")
 
+        # Daten aus Tabellen abrufen
+        customers_df = pd.read_sql("SELECT * FROM customers", conn)
+        orders_df = pd.read_sql("SELECT * FROM orders", conn)
+        orderitems_df = pd.read_sql("SELECT * FROM orderitems", conn)
+        products_df = pd.read_sql("SELECT * FROM products", conn)
+        ingredients_df = pd.read_sql("SELECT * FROM ingredients", conn)
+        productingredients_df = pd.read_sql("SELECT * FROM productingredients", conn)
+        stores_df = pd.read_sql("SELECT * FROM stores", conn)
 
-# Daten aus MySQL laden
-customers_df = pd.read_sql("SELECT * FROM customers", conn)
-orders_df = pd.read_sql("SELECT * FROM orders", conn)
-orderitems_df = pd.read_sql("SELECT * FROM orderitems", conn)
-products_df = pd.read_sql("SELECT * FROM products", conn)
-ingredients_df = pd.read_sql("SELECT * FROM ingredients", conn)
-productingredients_df = pd.read_sql("SELECT * FROM productingredients", conn)
-stores_df = pd.read_sql("SELECT * FROM stores", conn)
-
-
+except Exception as e:
+    print("❌ Fehler bei der Verbindung:")
+    print(e)
 
 
 
