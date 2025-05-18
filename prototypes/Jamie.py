@@ -23,7 +23,8 @@ conn = mysql.connector.connect(
     database=os.getenv("DB_NAME")
 )
 
-
+print("✅ Verbindung erfolgreich!")
+conn.close()
 
 
 # Daten aus MySQL laden
