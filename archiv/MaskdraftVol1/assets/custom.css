@@ -1,0 +1,30 @@
+/* Bestehende Regeln */
+.Select-menu-outer {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.Select-menu {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.Select-option {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.Select-option:hover {
+    background-color: #333333 !important;
+    color: #ffffff !important;
+}
+
+/* Neue Regeln für den ausgewählten Wert */
+.Select-control {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.Select-value-label {
+    color: #ffffff !important;
+    opacity: 1 !important; /* Verhindert die matte Darstellung */
+}
+.Select-input > input {
+    color: #ffffff !important;
+}
