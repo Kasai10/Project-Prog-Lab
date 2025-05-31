@@ -95,4 +95,5 @@ def get_avg_distance():
         ORDER BY avg_distance_km
     """)
     return jsonify(data)
+#test
 
